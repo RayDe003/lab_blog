@@ -15,8 +15,13 @@
    pip install Pillow
 ```
 # Запуск
+1. Выполните миграции
+   ```bash
+    python manage.py makemigrations
+    python manage.py migrate
+   ```
 
-1. Запустите сервер
+2. Запустите сервер
    ```bash
      python manage.py runserver
    ```
