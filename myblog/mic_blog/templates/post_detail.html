@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пост</title>
+</head>
+<body>
+    <h2>Детали поста</h2>
+    <div>
+        <p>{{ post.content }} - {{ post.created_at }}</p>
+    </div>
+
+    <h3>Комментарии</h3>
+    {% for comment in comments %}
+        <div>
+            <p>{{ comment.content }} - {{ comment.created_at }} by {{ comment.user.username }}</p>
+            {% if comment.image %}
+                <img src="{{ comment.image.url }}" width="250px" height="150px" alt="Comment Image" >
+            {% endif %}
+            {% if comment.user == request.user %}
+            <p><a href="{% url 'comment_edit' comment_id=comment.id %}">Редактировать</a></p>
+            <p><a href="{% url 'comment_delete' comment_id=comment.id %}">Удалить</a></p>
+
+
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <h3>Добавить комменатрий</h3>
+    <form method="post" action="{% url 'post_detail' post_id=post.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ comment_form.content }}
+        {{ comment_form.image }}
+        <button type="submit">Добавить</button>
+    </form>
+<br>
+
+
+</body>
+</html>

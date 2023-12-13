@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+</head>
+<body>
+
+    <div style="float: left; width: 50%;">
+        <h1>Ваш профиль</h1>
+        {% if user.userprofile.avatar %}
+            <img src="{{ user.userprofile.avatar.url }}" width="250px" height="150px" alt="User Avatar">
+        {% endif %}
+        <p>Ник на платформе: {{ user.username }}</p>
+        <p>О себе: {{ user.userprofile.bio }}</p>
+        <p><a href="{% url 'logout' %}">Выход</a></p>
+        <p>------------------------------------------------------</p>
+        <p><a href="{% url 'edit_profile' %}">Редактировать профиль</a></p>
+        <p><a href="{% url 'delete_profile' %}">Удалить профиль</a></p>
+        <p>------------------------------------------------------</p>
+        <p><a href="{% url 'user_list' %}">Посмотреть список пользователей</a></p>
+    </div>
+
+    <div style="float: right; width: 50%;">
+        <h2>Ваши посты</h2>
+        <form method="post" action="{% url 'profile' %}" >
+            {% csrf_token %}
+            {{ post_form.as_p }}
+            <button type="submit">Post</button>
+        </form>
+        {% for post in posts %}
+            <p>{{ post.content }} - {{ post.created_at }}</p>
+            <p><a href="{% url 'post_detail' post_id=post.id %}">Посмотреть детали поста</a></p>
+        {% endfor %}
+
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                    <a href="?page=1">&laquo; Первая</a>
+                    <a href="?page={{ posts.previous_page_number }}">предыдущая</a>
+                {% endif %}
+
+                <span class="current">
+                    Страница {{ posts.number }} из {{ posts.paginator.num_pages }}.
+                </span>
+
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}">следующая</a>
+                    <a href="?page={{ posts.paginator.num_pages }}">последняя страница &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- mic_blog/templates/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+</head>
+<body>
+
+    <h1>Удаление профиля</h1>
+    <p>Уверены, что  хотите  удалить профиль?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+    </form>
+    <a href="{% url 'profile' %}">Отмена</a>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Неопозанный объект</title>
+</head>
+<body>
+    <div style="float: left; width: 50%;">
+          <h2>Профиль - {{ user.username }}</h2>
+        <div>
+            {% if user.userprofile.avatar %}
+            <img src="{{ user.userprofile.avatar.url }}" width="250px" height="150px" alt="User Avatar">
+        {% else %}
+            <p>No avatar available for this user.</p>
+        {% endif %}
+            <p>Ник: {{ user.username}}</p>
+            <p>Био: {{ user.userprofile.bio }}</p>
+        </div>
+
+         <p>------------------------------------------------------</p>
+         <p><a href="{% url 'user_list' %}">Вернуться к списку</a></p>
+    </div>
+
+    <div style="float: right; width: 50%;">
+        {% if posts %}
+            <h3>Посты {{ user.username }}</h3>
+            {% for post in posts %}
+                <div>
+                    <p>{{ post.content }} - {{ post.created_at }}</p>
+                    <p><a href="{% url 'post_detail' post_id=post.id %}">Добавить комменатрий</a></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Тут пусто.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
